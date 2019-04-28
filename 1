@@ -1,0 +1,223 @@
+
+priya minocha <priyaminocha24@gmail.com>
+Attachments
+3:11 PM (8 hours ago)
+to me
+
+
+8 Attachments
+
+#include<cstdlib>
+#include<cstdio>
+#include<cmath>
+#include<iostream>
+#include<iomanip>
+
+using namespace std;
+
+int merge(int*, int , int , int );
+int merge_sort(int*, int , int );
+void printArray(int*, int);
+
+int merge(int a[],int l,int m,int h)
+{
+	int x = m-l+1;
+
+	int y = h-m;
+
+	int a1[x] , a2[y];
+
+	for(int i=0;i<x;i++)
+		a1[i] = a[l+i];
+
+	for(int j=0;j<y;j++)
+		a2[j] = a[m+1+j];
+
+	int i=0,j=0,c=0,k=l;
+
+	while(i<x && j<y)
+	{
+		if(a1[i]<=a2[j])
+		{
+			a[k] = a1[i];
+			i++;
+		}
+		else
+		{
+			a[k] = a2[j];
+			j++;
+		}
+
+		c++;
+		k++;
+	}
+
+	while(i<x)
+	{
+		a[k] = a1[i];
+		i++;
+		k++;
+	}
+
+	while(j<y)
+	{
+		a[k] = a2[j];
+		j++;
+		k++;
+	}
+	return c;
+}
+
+
+int merge_sort(int a[],int l,int h)
+{
+	if(l>=h)
+		return 0;
+
+	int m=(l+h)/2;
+
+	int p=merge_sort(a,l,m);
+	int q=merge_sort(a,m+1,h);
+	int r=merge(a,l,m,h);
+
+	return p+q+r;
+
+}
+
+
+void printArray(int A[], int size)
+{
+    int i;
+    for (i=0; i < size; i++)
+        cout<<"  "<<A[i];
+        cout<<endl;
+}
+int main()
+{
+	int ch1;
+	while(1)
+	{
+	cout<<"1.MERGE SORT\n2.TIME COMPLEXITY\n3.EXIT\n";
+	cin>>ch1;
+
+	switch(ch1)
+	{
+
+	case 1:{
+    			int n,ch,c;
+    			cout<<"Enter the size of the array"<<endl;
+    			cin>>n;
+
+    			int *arr = (int *)malloc(n* sizeof(int));
+
+   				int x=1;
+   			 	srand(0);
+    			while(x)
+   		 		{
+
+        				cout<<"Enter your choice\n1.Ascending Order\n2.Descending order\n3.Random order\n4.User\n5.Go back\n";
+        				cin>>ch;
+       	 				switch(ch)
+       					{
+        					case 1:{
+            					for(int i=0;i<n;i++)
+    	           					arr[i]=i;
+    	           					cout<<"BEFORE MERGE SORT:"<<endl;
+    					printArray(arr, n);
+
+    					c=merge_sort(arr, 0, n - 1);
+
+    					cout<<"\nAFTER MERGE SORT:\n";
+    					printArray(arr, n);
+
+    					cout<<"\nNUMBER OF COMPARISONS:\n"<<c<<endl;}
+    	    					break;
+    						case 2:{
+    	     					for(int i=n-1;i>=0;i--)
+    	             				arr[n-i-1]=i;
+    	             				cout<<"BEFORE MERGE SORT:"<<endl;
+    					printArray(arr, n);
+
+    					c=merge_sort(arr, 0, n - 1);
+
+    					cout<<"\nAFTER MERGE SORT:\n";
+    					printArray(arr, n);
+
+    					cout<<"\nNUMBER OF COMPARISONS:\n"<<c<<endl;}
+    	     					break;
+    	 					case 3:{
+    	      					for(int i=0;i<n;i++)
+    	             				arr[i]=rand()%100;
+    	             				cout<<"BEFORE MERGE SORT:"<<endl;
+    					printArray(arr, n);
+
+    					c=merge_sort(arr, 0, n - 1);
+
+    					cout<<"\nAFTER MERGE SORT:\n";
+    					printArray(arr, n);
+
+    					cout<<"\nNUMBER OF COMPARISONS:\n"<<c<<endl;}
+    	      					break;
+    	 					case 4:{
+    	 						for(int i=0;i<n;i++)
+    	 							cin>>arr[i];
+    	 							cout<<"BEFORE MERGE SORT:"<<endl;
+    					printArray(arr, n);
+
+    					c=merge_sort(arr, 0, n - 1);
+
+    					cout<<"\nAFTER MERGE SORT:\n";
+    					printArray(arr, n);
+
+    					cout<<"\nNUMBER OF COMPARISONS:\n"<<c<<endl;}
+    	 						break;
+
+    	 					default:  x=0;
+    	 								break;
+
+       		 			}
+
+
+   			}
+	}
+	break;
+
+case 2:
+	{
+
+   	 cout<<setw(10)<<"n"<<setw(10)<<"nlogn"<<setw(10)<<"c1"<<setw(10)<<"g/c1"<<setw(10)<<"c2";
+   	 cout<<setw(10)<<"g/c2"<<setw(10)<<"c3"<<setw(10)<<"g/c3"<<endl;
+   	 for(int n=8 ; n<(2^2000) ; n=n*2)
+   	 {
+       	 int arr1[n],arr2[n],arr3[n];
+
+        for(int i=0 ; i<n ; i++)
+            arr1[i]=i+1;
+
+        for(int i=0 ; i<n ; i++)
+            arr2[i]=n-i;
+        for(int i=0 ; i<n ; i++)
+            arr3[i]=rand()%100;
+
+        int c1=merge_sort(arr1,0,n-1);
+        int c2=merge_sort(arr2,0,n-1);
+        int c3=merge_sort(arr3,0,n-1);
+
+        float g=n*log2(n);
+
+        cout<<setw(10)<<n<<setw(10)<<g<<setw(10)<<c1<<setw(10)<<g/c1<<setw(10)<<c2;
+        cout<<setw(10)<<g/c2<<setw(10)<<c3<<setw(10)<<g/c3<<endl;
+
+    }
+   }
+   break;
+
+ default: exit(0);
+
+ }
+
+ }
+
+ return 0;
+
+ }
